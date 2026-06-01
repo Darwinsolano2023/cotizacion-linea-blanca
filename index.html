@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotización Comercial - Línea Blanca</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #F4F5F7;
+            color: #2D3748;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+            margin-bottom: 30px;
+            text-align: center;
+            border-top: 5px solid #A85D5D;
+        }
+
+        .header h1 {
+            color: #2D3748;
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            margin-bottom: 10px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            color: #718096;
+            font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+            margin-bottom: 20px;
+        }
+
+        .header .client-info {
+            background: #FAFAFA;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid #E2E8F0;
+        }
+
+        .header .client-info p {
+            margin: 5px 0;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+
+        /* Secciones */
+        .section {
+            background: white;
+            padding: 25px;
+            border-radius: 18px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            margin-bottom: 25px;
+            border: 1px solid #EDF2F7;
+        }
+
+        .section h2 {
+            color: #2D3748;
+            font-size: clamp(1.3rem, 4vw, 1.8rem);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #A85D5D;
+            font-weight: 600;
+        }
+
+        .section p,
+        .section li {
+            font-size: clamp(0.9rem, 2.2vw, 1rem);
+            margin-bottom: 10px;
+            color: #4A5568;
+        }
+
+        /* Tabla de costos */
+        .pricing-table {
+            width: 100%;
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 300px;
+            background: white;
+        }
+
+        th,
+        td {
+            padding: 14px 12px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+        }
+
+        th {
+            background: #A85D5D;
+            color: white;
+            font-weight: 600;
+        }
+
+        tr:hover {
+            background: #FAF7F7;
+        }
+
+        .total-row {
+            background: #FCF7F7;
+            font-weight: bold;
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+        }
+
+        .total-row td {
+            color: #8E4B4B;
+        }
+
+        /* Lista de características */
+        .features-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features-list li {
+            padding: 14px;
+            margin-bottom: 10px;
+            background: #FAFAFA;
+            border-left: 4px solid #A85D5D;
+            border-radius: 8px;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            transition: all .2s ease;
+        }
+
+        .features-list li:hover {
+            background: #F8F8F8;
+            transform: translateX(3px);
+        }
+
+        .features-list li:before {
+            content: "✓ ";
+            color: #A85D5D;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        /* Condiciones de pago */
+        .payment-terms {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .payment-card {
+            background: linear-gradient(
+                135deg,
+                #A85D5D 0%,
+                #8E4B4B 100%
+            );
+            color: white;
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(168,93,93,0.18);
+        }
+
+        .payment-card .amount {
+            font-size: clamp(1.5rem, 5vw, 2rem);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .payment-card .label {
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            opacity: 0.9;
+        }
+
+        /* Firmas */
+        .signatures {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .signature-box {
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 2px solid #4A5568;
+            margin: 60px 20px 10px;
+        }
+
+        .signature-box p {
+            margin: 5px 0;
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+        }
+
+        /* Botones */
+        .btn-container {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        .btn {
+            background: #A85D5D;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 18px rgba(168,93,93,0.20);
+        }
+
+        .btn:hover {
+            background: #8E4B4B;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(168,93,93,0.25);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #A85D5D;
+            border: 2px solid #A85D5D;
+        }
+
+        .btn-secondary:hover {
+            background: #A85D5D;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #718096;
+            margin-top: 30px;
+        }
+
+        .footer p {
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            margin: 5px 0;
+        }
+
+        .footer strong {
+            color: #2D3748;
+        }
+
+        /* Destacados */
+        .highlight {
+            background: #FCF7F7;
+            border-left: 4px solid #A85D5D;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .highlight p {
+            color: #2D3748;
+            margin: 0;
+            font-size: clamp(0.9rem, 2vw, 1rem);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            .header {
+                padding: 20px 15px;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th,
+            td {
+                padding: 8px 5px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            .btn-container {
+                display: none;
+            }
+
+            .section {
+                box-shadow: none;
+                page-break-inside: avoid;
+                border: 1px solid #E2E8F0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📄 COTIZACIÓN COMERCIAL</h1>
+            <p class="subtitle">Desarrollo de Plataforma administrable Web E-commerce B2B</p>
+            
+            <div class="client-info">
+                <p><strong>Cliente:</strong> LINEA BLANCA</p>
+                <p><strong>Proyecto:</strong> Catálogo Digital de productos</p>
+                <p><strong>Fecha:</strong> <span id="fecha"></span></p>
+                <p><strong>Válida por:</strong> 30 días</p>
+            </div>
+        </div>
+
+        <!-- Descripción del Proyecto -->
+        <div class="section">
+            <h2>🎯 Objetivo del Proyecto</h2>
+            <p>
+                Implementar una plataforma E-commerce B2B desarrollada a la medida, que permita centralizar la administración de productos, promociones, electrodomésticos e información comercial desde una única herramienta moderna y fácil de usar.
+            </p>
+            <p>
+                La solución estará diseñada para acompañar el crecimiento de la empresa, permitiendo futuras ampliaciones e integraciones con otros sistemas de información utilizados por el negocio.
+            </p>
+            <p>
+                El proyecto contempla una arquitectura escalable, enfocada en mejorar la experiencia de los clientes, optimizar los procesos internos y fortalecer la presencia digital de la marca.
+            </p>
+        </div>
+
+        <!-- Alcance del Proyecto -->
+        <div class="section">
+            <h2>🎯 Alcance del Proyecto</h2>
+            <ul class="features-list">
+                <li>Catálogo digital completo</li>
+                <li>Sistema de gestión de productos (nombre, imagen, descripción, precio)</li>
+                <li>Integración con WhatsApp para consultas y cotizaciones</li>
+                <li>Sistema de ofertas y descuentos personalizables</li>
+                <li>Sección de contacto con fomrulario</li>
+                <li>Diseño responsive adaptable a todos los dispositivos</li>
+                <li>Panel administrativo intuitivo para gestión.</li>
+                <li>Capacitación en uso del sistema</li>
+            </ul>
+        </div>
+
+        <!-- Estudio de Mercado -->
+        <div class="section">
+            <h2>📊 Análisis del Mercado Colombiano</h2>
+            
+            <h3>💰 Rangos de Precio en el Mercado</h3>
+            
+            <div class="pricing-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Tipo de Desarrollo</th>
+                            <th>Rango de Precio</th>
+                            <th>Características</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Básico</strong></td>
+                            <td>$1.5M - $4M COP</td>
+                            <td>Plantillas predefinidas, funcionalidades estándar, sin personalización</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Intermedio</strong></td>
+                            <td>$4M - $15M COP</td>
+                            <td>Diseño semi-personalizado, catálogo amplio, funciones adicionales</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Avanzado</strong></td>
+                            <td>$15M - $30M+ COP</td>
+                            <td>Diseño 100% a medida, múltiples integraciones, escalabilidad enterprise</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight">
+                <p><strong>✨ Nuestra Propuesta de Valor:</strong> Nuestra propuesta se enfoca en el desarrollo de una plataforma totalmente personalizada, construida específicamente para las necesidades de su operación comercial.
+                A diferencia de las soluciones genéricas basadas en plantillas, esta plataforma podrá evolucionar junto con la empresa, incorporando nuevas funcionalidades, procesos comerciales e integraciones con sistemas existentes cuando sea necesario.
+                El cliente será propietario de la solución desarrollada y contará con una herramienta diseñada exclusivamente para su marca y sus procesos internos.
+                </p>
+            </div>
+
+            <h3 style="margin-top: 30px; margin-bottom: 15px;">📈 Ventajas Competitivas</h3>
+            <ul class="features-list">
+                <li>Ahorro hasta 50% comparado con desarrollos tradicionales</li>
+                <li>Diseño 100% personalizado a tu marca</li>
+                <li>Soporte directo - espuesta inmediata</li>
+                <li>Integración con sistemas de inventario, ERP o software empresarial mediante API.</li>
+                <li>Administración sencilla de productos, promociones y contenido comercial.</li>
+                <li>Independencia tecnológica frente a plataformas cerradas o con licencias recurrentes.</li>
+                <li>Propiedad completa del desarrollo entregado.</li>
+            </ul>
+        </div>
+
+        <!-- Desglose de Costos - OPCIÓN 1 -->
+        <div class="section">
+            <h2>💰 Propuesta Económica: Pago Único</h2>
+            <div class="pricing-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Descripción</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Desarrollo Frontend</td>
+                            <td>Diseño e interfaces de usuario</td>
+                            <td>$600.000</td>
+                        </tr>
+                        <tr>
+                            <td>Desarrollo Backend</td>
+                            <td>Sistema de gestión y base de datos</td>
+                            <td>$600.000</td>
+                        </tr>
+                        <tr>
+                            <td>Panel Administrativo</td>
+                            <td>Gestión de productos y ofertas</td>
+                            <td>$500.000</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="2"><strong>TOTAL INVERSIÓN INICIAL</strong></td>
+                            <td><strong>$1.700.000</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="highlight">
+                <p><strong>Hosting y Dominio (No incluidos en esta propuesta)</strong></p>
+
+                <p>
+                    El proyecto requiere un servicio de hosting y dominio para su publicación en Internet.
+                    Actualmente existen planes empresariales en el mercado con valores aproximados entre
+                    <strong>$250.000 y $600.000 COP anuales</strong>, dependiendo de la capacidad, rendimiento,
+                    seguridad y servicios incluidos.
+                </p>
+
+                <p>
+                    Estos servicios no se encuentran incluidos dentro de la presente propuesta económica.
+                    El cliente podrá adquirirlos directamente con el proveedor de su preferencia o,
+                    en caso de contar actualmente con servicios de hosting y dominio, estos podrán ser
+                    utilizados para la implementación del proyecto siempre que cumplan con los requisitos técnicos necesarios.
+                </p>
+            </div>
+        </div>
+
+        <!-- Condiciones de Pago -->
+        <div class="section">
+            <h2>💳 Condiciones de Pago</h2>
+            <div class="payment-terms">
+                <div class="payment-card">
+                    <div class="amount">30%</div>
+                    <div class="label">Al inicio del proyecto</div>
+                </div>
+                <div class="payment-card">
+                    <div class="amount">70%</div>
+                    <div class="label">Al finalizar<br>(Entrega del proyecto)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cronograma -->
+        <div class="section">
+            <h2>📅 Cronograma de Entrega</h2>
+            <p><strong>Tiempo total: 2 semanas (14 días calendario)</strong></p>
+            <ul class="features-list">
+                <li><strong>Sprint 1 (Días 1-3):</strong> Planificación, diseño y arquitectura del sistema</li>
+                <li><strong>Sprint 2 (Días 4-10):</strong> Desarrollo Backend y Frontend completo</li>
+                <li><strong>Sprint 3 (Días 11-12):</strong> Integración WhatsApp y Panel Admin</li>
+                <li><strong>Sprint 4 (Días 13-14):</strong> Testing, ajustes y despliegue en producción</li>
+            </ul>
+        </div>
+
+        <!-- Soporte Adicional -->
+        <div class="section">
+            <h2>🛠️ Desarrollos Adicionales</h2>
+            <p>
+                <strong>Integración con ERP o Sistema Empresarial mediante API:</strong>
+                $300.000 COP
+            </p>
+            <p style="font-size: 0.95rem; color: #666;">
+                Esta integración permitirá la actualización automática de inventarios,
+                productos o información comercial en tiempo real entre el E-commerce y el sistema ERP
+                de la empresa.
+            </p>
+            <p style="font-size: 0.95rem; color: #666;">
+                La integración está sujeta a que el ERP o software empresarial cuente con
+                servicios API disponibles y documentación técnica que permita la conexión.
+            </p>
+            <hr style="margin:20px 0; border:none; border-top:1px solid #E2E8F0;">
+
+            <p>
+                <strong>Funcionalidades personalizadas fuera del alcance inicial:</strong>
+                $35.000/hora
+            </p>
+
+            <p style="font-size: 0.9rem; color: #666;">
+                Ejemplos: reportería avanzada, automatizaciones, módulos especiales,
+                chatbot de WhatsApp, procesos de negocio adicionales, nuevas integraciones
+                o mejoras solicitadas posteriormente.
+            </p>
+        </div>
+
+        <!-- Términos y Condiciones -->
+        <div class="section">
+            <h2>📜 Términos y Condiciones</h2>
+            <ul style="list-style: disc; padding-left: 20px;">
+                <li>Esta cotización es válida por 30 días calendario</li>
+                <li>El proyecto inicia una vez confirmado el pago inicial</li>
+                <li>
+                    Una vez entregada la plataforma, el cliente contará con un período de
+                    <strong>3 meses de estabilización y pruebas</strong>, durante el cual podrá solicitar
+                    ajustes funcionales menores, correcciones y mejoras relacionadas con el alcance inicialmente contratado.
+                </li>
+
+                <li>
+                    Los cambios estructurales, rediseños completos, nuevos módulos o funcionalidades
+                    que modifiquen el alcance original del proyecto serán evaluados y cotizados por separado.
+                </li>
+                <li>El cliente debe proveer contenidos (textos, imágenes de productos, etc.)</li>
+            </ul>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="btn-container">
+            <button class="btn btn-secondary" onclick="enviarWhatsApp()">💬 Enviar por WhatsApp</button>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p><b>Ing. Darwin Solano | IDS Services</b></p>
+            <p>📧 darwinsolano2022@gmail.com</p>
+            <p>📱 +57 3166423014</p>
+            <p>Desarrollo Web | Software | Automatización y Big Data</p>
+        </div>
+    </div>
+
+    <script>
+        // Fecha actual
+        const fecha = new Date();
+        const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('fecha').textContent = fecha.toLocaleDateString('es-CO', opciones);
+
+        // Función para enviar por WhatsApp
+        function enviarWhatsApp() {
+            const mensaje = "Hola! Me interesa la cotización para el desarrollo de la plataforma web. ¿Podemos conversar?";
+            const numero = "573166423014";
+            const url = `https://wa.me/${numero}?text=${encodeURIComponent(mensaje)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
